@@ -1,0 +1,1209 @@
+{
+  "meta": {
+    "dataset": "hotpot_qaexamples.json",
+    "mode": "mock",
+    "model": "deterministic",
+    "num_examples": 100,
+    "num_records": 200,
+    "agents": [
+      "react",
+      "reflexion"
+    ],
+    "token_accounting": "deterministic mock accounting",
+    "latency_accounting": "wall-clock milliseconds per runtime call"
+  },
+  "summary": {
+    "react": {
+      "count": 100,
+      "em": 0.76,
+      "avg_attempts": 1,
+      "avg_token_estimate": 1440.43,
+      "total_tokens": 144043,
+      "avg_latency_ms": 2
+    },
+    "reflexion": {
+      "count": 100,
+      "em": 1.0,
+      "avg_attempts": 1.24,
+      "avg_token_estimate": 1814.23,
+      "total_tokens": 181423,
+      "avg_latency_ms": 2.72
+    },
+    "delta_reflexion_minus_react": {
+      "em_abs": 0.24,
+      "attempts_abs": 0.24,
+      "tokens_abs": 373.8,
+      "latency_abs": 0.72
+    }
+  },
+  "failure_modes": {
+    "entity_drift": {
+      "counts": {
+        "react": 10,
+        "react_failed_attempts": 10,
+        "reflexion_failed_attempts": 10
+      },
+      "diagnosis": "The reasoning chain moved to a related but unsupported entity.",
+      "suggested_fix": "Track entity names per hop and verify the final entity in context."
+    },
+    "incomplete_multi_hop": {
+      "counts": {
+        "react": 7,
+        "react_failed_attempts": 7,
+        "reflexion_failed_attempts": 7
+      },
+      "diagnosis": "The answer stopped after an intermediate relation.",
+      "suggested_fix": "Write the complete hop chain before selecting the final answer."
+    },
+    "wrong_final_answer": {
+      "counts": {
+        "react": 7,
+        "react_failed_attempts": 7,
+        "reflexion_failed_attempts": 7
+      },
+      "diagnosis": "The evidence chain was attempted but the final phrase was incorrect.",
+      "suggested_fix": "Re-read the question target and compare it with the final evidence."
+    },
+    "looping": {
+      "counts": {},
+      "diagnosis": "Retries repeated the same unsuccessful reasoning path.",
+      "suggested_fix": "Use reflection memory to force a different evidence order."
+    },
+    "reflection_overfit": {
+      "counts": {},
+      "diagnosis": "A reflection introduced assumptions not supported by context.",
+      "suggested_fix": "Treat reflection as strategy only and re-ground every fact."
+    }
+  },
+  "examples": [
+    {
+      "qid": "5a8b57f25542995d1e6f1371",
+      "agent_type": "react",
+      "question": "Were Scott Derrickson and Ed Wood of the same nationality?",
+      "gold_answer": "yes",
+      "predicted_answer": "yes",
+      "is_correct": true,
+      "attempts": 1,
+      "token_count": 1135,
+      "latency_ms": 2,
+      "failure_mode": "none",
+      "reflections": [],
+      "traces": [
+        {
+          "attempt_id": 1,
+          "answer": "yes",
+          "score": 1,
+          "reason": "Answer matches the gold answer after normalization.",
+          "failure_mode": "none",
+          "token_estimate": 1135,
+          "latency_ms": 2
+        }
+      ]
+    },
+    {
+      "qid": "5a8c7595554299585d9e36b6",
+      "agent_type": "react",
+      "question": "What government position was held by the woman who portrayed Corliss Archer in the film Kiss and Tell?",
+      "gold_answer": "Chief of Protocol",
+      "predicted_answer": "Chief of Protocol",
+      "is_correct": true,
+      "attempts": 1,
+      "token_count": 1212,
+      "latency_ms": 2,
+      "failure_mode": "none",
+      "reflections": [],
+      "traces": [
+        {
+          "attempt_id": 1,
+          "answer": "Chief of Protocol",
+          "score": 1,
+          "reason": "Answer matches the gold answer after normalization.",
+          "failure_mode": "none",
+          "token_estimate": 1212,
+          "latency_ms": 2
+        }
+      ]
+    },
+    {
+      "qid": "5a85ea095542994775f606a8",
+      "agent_type": "react",
+      "question": "What science fantasy young adult series, told in first person, has a set of companion books narrating the stories of enslaved worlds and alien species?",
+      "gold_answer": "Animorphs",
+      "predicted_answer": "Animorphs",
+      "is_correct": true,
+      "attempts": 1,
+      "token_count": 1620,
+      "latency_ms": 2,
+      "failure_mode": "none",
+      "reflections": [],
+      "traces": [
+        {
+          "attempt_id": 1,
+          "answer": "Animorphs",
+          "score": 1,
+          "reason": "Answer matches the gold answer after normalization.",
+          "failure_mode": "none",
+          "token_estimate": 1620,
+          "latency_ms": 2
+        }
+      ]
+    },
+    {
+      "qid": "5adbf0a255429947ff17385a",
+      "agent_type": "react",
+      "question": "Are the Laleli Mosque and Esma Sultan Mansion located in the same neighborhood?",
+      "gold_answer": "no",
+      "predicted_answer": "no",
+      "is_correct": true,
+      "attempts": 1,
+      "token_count": 849,
+      "latency_ms": 2,
+      "failure_mode": "none",
+      "reflections": [],
+      "traces": [
+        {
+          "attempt_id": 1,
+          "answer": "no",
+          "score": 1,
+          "reason": "Answer matches the gold answer after normalization.",
+          "failure_mode": "none",
+          "token_estimate": 849,
+          "latency_ms": 2
+        }
+      ]
+    },
+    {
+      "qid": "5a8e3ea95542995a26add48d",
+      "agent_type": "react",
+      "question": "The director of the romantic comedy \"Big Stone Gap\" is based in what New York city?",
+      "gold_answer": "Greenwich Village, New York City",
+      "predicted_answer": "Just Another Romantic Wrestling Comedy",
+      "is_correct": false,
+      "attempts": 1,
+      "token_count": 1390,
+      "latency_ms": 2,
+      "failure_mode": "wrong_final_answer",
+      "reflections": [],
+      "traces": [
+        {
+          "attempt_id": 1,
+          "answer": "Just Another Romantic Wrestling Comedy",
+          "score": 0,
+          "reason": "The predicted answer does not complete the required evidence chain.",
+          "failure_mode": "wrong_final_answer",
+          "token_estimate": 1390,
+          "latency_ms": 2
+        }
+      ]
+    },
+    {
+      "qid": "5abd94525542992ac4f382d2",
+      "agent_type": "react",
+      "question": "2014 S/S is the debut album of a South Korean boy group that was formed by who?",
+      "gold_answer": "YG Entertainment",
+      "predicted_answer": "YG Entertainment",
+      "is_correct": true,
+      "attempts": 1,
+      "token_count": 1223,
+      "latency_ms": 2,
+      "failure_mode": "none",
+      "reflections": [],
+      "traces": [
+        {
+          "attempt_id": 1,
+          "answer": "YG Entertainment",
+          "score": 1,
+          "reason": "Answer matches the gold answer after normalization.",
+          "failure_mode": "none",
+          "token_estimate": 1223,
+          "latency_ms": 2
+        }
+      ]
+    },
+    {
+      "qid": "5a85b2d95542997b5ce40028",
+      "agent_type": "react",
+      "question": "Who was known by his stage name Aladin and helped organizations improve their performance as a consultant?",
+      "gold_answer": "Eenasul Fateh",
+      "predicted_answer": "James P. Comer",
+      "is_correct": false,
+      "attempts": 1,
+      "token_count": 1950,
+      "latency_ms": 2,
+      "failure_mode": "incomplete_multi_hop",
+      "reflections": [],
+      "traces": [
+        {
+          "attempt_id": 1,
+          "answer": "James P. Comer",
+          "score": 0,
+          "reason": "The predicted answer does not complete the required evidence chain.",
+          "failure_mode": "incomplete_multi_hop",
+          "token_estimate": 1950,
+          "latency_ms": 2
+        }
+      ]
+    },
+    {
+      "qid": "5a87ab905542996e4f3088c1",
+      "agent_type": "react",
+      "question": "The arena where the Lewiston Maineiacs played their home games can seat how many people?",
+      "gold_answer": "3,677 seated",
+      "predicted_answer": "3,677 seated",
+      "is_correct": true,
+      "attempts": 1,
+      "token_count": 3477,
+      "latency_ms": 2,
+      "failure_mode": "none",
+      "reflections": [],
+      "traces": [
+        {
+          "attempt_id": 1,
+          "answer": "3,677 seated",
+          "score": 1,
+          "reason": "Answer matches the gold answer after normalization.",
+          "failure_mode": "none",
+          "token_estimate": 3477,
+          "latency_ms": 2
+        }
+      ]
+    },
+    {
+      "qid": "5a7bbb64554299042af8f7cc",
+      "agent_type": "react",
+      "question": "Who is older, Annie Morton or Terry Richardson?",
+      "gold_answer": "Terry Richardson",
+      "predicted_answer": "Terry Richardson",
+      "is_correct": true,
+      "attempts": 1,
+      "token_count": 1383,
+      "latency_ms": 2,
+      "failure_mode": "none",
+      "reflections": [],
+      "traces": [
+        {
+          "attempt_id": 1,
+          "answer": "Terry Richardson",
+          "score": 1,
+          "reason": "Answer matches the gold answer after normalization.",
+          "failure_mode": "none",
+          "token_estimate": 1383,
+          "latency_ms": 2
+        }
+      ]
+    },
+    {
+      "qid": "5a8db19d5542994ba4e3dd00",
+      "agent_type": "react",
+      "question": "Are Local H and For Against both from the United States?",
+      "gold_answer": "yes",
+      "predicted_answer": "yes",
+      "is_correct": true,
+      "attempts": 1,
+      "token_count": 1443,
+      "latency_ms": 2,
+      "failure_mode": "none",
+      "reflections": [],
+      "traces": [
+        {
+          "attempt_id": 1,
+          "answer": "yes",
+          "score": 1,
+          "reason": "Answer matches the gold answer after normalization.",
+          "failure_mode": "none",
+          "token_estimate": 1443,
+          "latency_ms": 2
+        }
+      ]
+    },
+    {
+      "qid": "5a7166395542994082a3e814",
+      "agent_type": "react",
+      "question": "What is the name of the fight song of the university whose main campus is in Lawrence, Kansas and whose branch campuses are in the Kansas City metropolitan area?",
+      "gold_answer": "Kansas Song",
+      "predicted_answer": "North Kansas City, Missouri",
+      "is_correct": false,
+      "attempts": 1,
+      "token_count": 1953,
+      "latency_ms": 2,
+      "failure_mode": "entity_drift",
+      "reflections": [],
+      "traces": [
+        {
+          "attempt_id": 1,
+          "answer": "North Kansas City, Missouri",
+          "score": 0,
+          "reason": "The predicted answer does not complete the required evidence chain.",
+          "failure_mode": "entity_drift",
+          "token_estimate": 1953,
+          "latency_ms": 2
+        }
+      ]
+    },
+    {
+      "qid": "5a877e5d5542993e715abf7d",
+      "agent_type": "react",
+      "question": "What screenwriter with credits for \"Evolution\" co-wrote a film starring Nicolas Cage and Téa Leoni?",
+      "gold_answer": "David Weissman",
+      "predicted_answer": "David Weissman",
+      "is_correct": true,
+      "attempts": 1,
+      "token_count": 1190,
+      "latency_ms": 2,
+      "failure_mode": "none",
+      "reflections": [],
+      "traces": [
+        {
+          "attempt_id": 1,
+          "answer": "David Weissman",
+          "score": 1,
+          "reason": "Answer matches the gold answer after normalization.",
+          "failure_mode": "none",
+          "token_estimate": 1190,
+          "latency_ms": 2
+        }
+      ]
+    },
+    {
+      "qid": "5ab3b0bf5542992ade7c6e39",
+      "agent_type": "react",
+      "question": "What year did Guns N Roses perform a promo for a movie starring Arnold Schwarzenegger as a former New York Police detective?",
+      "gold_answer": "1999",
+      "predicted_answer": "1999",
+      "is_correct": true,
+      "attempts": 1,
+      "token_count": 1507,
+      "latency_ms": 2,
+      "failure_mode": "none",
+      "reflections": [],
+      "traces": [
+        {
+          "attempt_id": 1,
+          "answer": "1999",
+          "score": 1,
+          "reason": "Answer matches the gold answer after normalization.",
+          "failure_mode": "none",
+          "token_estimate": 1507,
+          "latency_ms": 2
+        }
+      ]
+    },
+    {
+      "qid": "5ab56e32554299637185c594",
+      "agent_type": "react",
+      "question": "Are Random House Tower and 888 7th Avenue both used for real estate?",
+      "gold_answer": "no",
+      "predicted_answer": "no",
+      "is_correct": true,
+      "attempts": 1,
+      "token_count": 3345,
+      "latency_ms": 2,
+      "failure_mode": "none",
+      "reflections": [],
+      "traces": [
+        {
+          "attempt_id": 1,
+          "answer": "no",
+          "score": 1,
+          "reason": "Answer matches the gold answer after normalization.",
+          "failure_mode": "none",
+          "token_estimate": 3345,
+          "latency_ms": 2
+        }
+      ]
+    },
+    {
+      "qid": "5ab6d09255429954757d337d",
+      "agent_type": "react",
+      "question": "The football manager who recruited David Beckham managed Manchester United during what timeframe?",
+      "gold_answer": "from 1986 to 2013",
+      "predicted_answer": "Joshua Parlby",
+      "is_correct": false,
+      "attempts": 1,
+      "token_count": 1001,
+      "latency_ms": 2,
+      "failure_mode": "incomplete_multi_hop",
+      "reflections": [],
+      "traces": [
+        {
+          "attempt_id": 1,
+          "answer": "Joshua Parlby",
+          "score": 0,
+          "reason": "The predicted answer does not complete the required evidence chain.",
+          "failure_mode": "incomplete_multi_hop",
+          "token_estimate": 1001,
+          "latency_ms": 2
+        }
+      ]
+    },
+    {
+      "qid": "5a75e05c55429976ec32bc5f",
+      "agent_type": "react",
+      "question": "Brown State Fishing Lake is in a country that has a population of how many inhabitants ?",
+      "gold_answer": "9,984",
+      "predicted_answer": "9,984",
+      "is_correct": true,
+      "attempts": 1,
+      "token_count": 1579,
+      "latency_ms": 2,
+      "failure_mode": "none",
+      "reflections": [],
+      "traces": [
+        {
+          "attempt_id": 1,
+          "answer": "9,984",
+          "score": 1,
+          "reason": "Answer matches the gold answer after normalization.",
+          "failure_mode": "none",
+          "token_estimate": 1579,
+          "latency_ms": 2
+        }
+      ]
+    },
+    {
+      "qid": "5ab3e45655429976abd1bcd4",
+      "agent_type": "react",
+      "question": "The Vermont Catamounts men's soccer team currently competes in a conference that was formerly known as what from 1988 to 1996?",
+      "gold_answer": "the North Atlantic Conference",
+      "predicted_answer": "2010–11 Vermont Catamounts men's basketball team",
+      "is_correct": false,
+      "attempts": 1,
+      "token_count": 1351,
+      "latency_ms": 2,
+      "failure_mode": "entity_drift",
+      "reflections": [],
+      "traces": [
+        {
+          "attempt_id": 1,
+          "answer": "2010–11 Vermont Catamounts men's basketball team",
+          "score": 0,
+          "reason": "The predicted answer does not complete the required evidence chain.",
+          "failure_mode": "entity_drift",
+          "token_estimate": 1351,
+          "latency_ms": 2
+        }
+      ]
+    },
+    {
+      "qid": "5ab29c24554299449642c932",
+      "agent_type": "react",
+      "question": "Are Giuseppe Verdi and Ambroise Thomas both Opera composers ?",
+      "gold_answer": "yes",
+      "predicted_answer": "yes",
+      "is_correct": true,
+      "attempts": 1,
+      "token_count": 1247,
+      "latency_ms": 2,
+      "failure_mode": "none",
+      "reflections": [],
+      "traces": [
+        {
+          "attempt_id": 1,
+          "answer": "yes",
+          "score": 1,
+          "reason": "Answer matches the gold answer after normalization.",
+          "failure_mode": "none",
+          "token_estimate": 1247,
+          "latency_ms": 2
+        }
+      ]
+    },
+    {
+      "qid": "5ae0d4c9554299603e418468",
+      "agent_type": "react",
+      "question": "Roger O. Egeberg was Assistant Secretary for Health and Scientific Affairs during the administration of a president that served during what years?",
+      "gold_answer": "1969 until 1974",
+      "predicted_answer": "1969 until 1974",
+      "is_correct": true,
+      "attempts": 1,
+      "token_count": 1888,
+      "latency_ms": 2,
+      "failure_mode": "none",
+      "reflections": [],
+      "traces": [
+        {
+          "attempt_id": 1,
+          "answer": "1969 until 1974",
+          "score": 1,
+          "reason": "Answer matches the gold answer after normalization.",
+          "failure_mode": "none",
+          "token_estimate": 1888,
+          "latency_ms": 2
+        }
+      ]
+    },
+    {
+      "qid": "5a8133725542995ce29dcbdb",
+      "agent_type": "react",
+      "question": "Which writer was from England, Henry Roth or Robert Erskine Childers?",
+      "gold_answer": "Robert Erskine Childers DSC",
+      "predicted_answer": "Robert Erskine Childers DSC",
+      "is_correct": true,
+      "attempts": 1,
+      "token_count": 957,
+      "latency_ms": 2,
+      "failure_mode": "none",
+      "reflections": [],
+      "traces": [
+        {
+          "attempt_id": 1,
+          "answer": "Robert Erskine Childers DSC",
+          "score": 1,
+          "reason": "Answer matches the gold answer after normalization.",
+          "failure_mode": "none",
+          "token_estimate": 957,
+          "latency_ms": 2
+        }
+      ]
+    },
+    {
+      "qid": "5a8b57f25542995d1e6f1371",
+      "agent_type": "reflexion",
+      "question": "Were Scott Derrickson and Ed Wood of the same nationality?",
+      "gold_answer": "yes",
+      "predicted_answer": "yes",
+      "is_correct": true,
+      "attempts": 1,
+      "token_count": 1135,
+      "latency_ms": 2,
+      "failure_mode": "none",
+      "reflections": [],
+      "traces": [
+        {
+          "attempt_id": 1,
+          "answer": "yes",
+          "score": 1,
+          "reason": "Answer matches the gold answer after normalization.",
+          "failure_mode": "none",
+          "token_estimate": 1135,
+          "latency_ms": 2
+        }
+      ]
+    },
+    {
+      "qid": "5a8c7595554299585d9e36b6",
+      "agent_type": "reflexion",
+      "question": "What government position was held by the woman who portrayed Corliss Archer in the film Kiss and Tell?",
+      "gold_answer": "Chief of Protocol",
+      "predicted_answer": "Chief of Protocol",
+      "is_correct": true,
+      "attempts": 1,
+      "token_count": 1212,
+      "latency_ms": 2,
+      "failure_mode": "none",
+      "reflections": [],
+      "traces": [
+        {
+          "attempt_id": 1,
+          "answer": "Chief of Protocol",
+          "score": 1,
+          "reason": "Answer matches the gold answer after normalization.",
+          "failure_mode": "none",
+          "token_estimate": 1212,
+          "latency_ms": 2
+        }
+      ]
+    },
+    {
+      "qid": "5a85ea095542994775f606a8",
+      "agent_type": "reflexion",
+      "question": "What science fantasy young adult series, told in first person, has a set of companion books narrating the stories of enslaved worlds and alien species?",
+      "gold_answer": "Animorphs",
+      "predicted_answer": "Animorphs",
+      "is_correct": true,
+      "attempts": 1,
+      "token_count": 1620,
+      "latency_ms": 2,
+      "failure_mode": "none",
+      "reflections": [],
+      "traces": [
+        {
+          "attempt_id": 1,
+          "answer": "Animorphs",
+          "score": 1,
+          "reason": "Answer matches the gold answer after normalization.",
+          "failure_mode": "none",
+          "token_estimate": 1620,
+          "latency_ms": 2
+        }
+      ]
+    },
+    {
+      "qid": "5adbf0a255429947ff17385a",
+      "agent_type": "reflexion",
+      "question": "Are the Laleli Mosque and Esma Sultan Mansion located in the same neighborhood?",
+      "gold_answer": "no",
+      "predicted_answer": "no",
+      "is_correct": true,
+      "attempts": 1,
+      "token_count": 849,
+      "latency_ms": 2,
+      "failure_mode": "none",
+      "reflections": [],
+      "traces": [
+        {
+          "attempt_id": 1,
+          "answer": "no",
+          "score": 1,
+          "reason": "Answer matches the gold answer after normalization.",
+          "failure_mode": "none",
+          "token_estimate": 849,
+          "latency_ms": 2
+        }
+      ]
+    },
+    {
+      "qid": "5a8e3ea95542995a26add48d",
+      "agent_type": "reflexion",
+      "question": "The director of the romantic comedy \"Big Stone Gap\" is based in what New York city?",
+      "gold_answer": "Greenwich Village, New York City",
+      "predicted_answer": "Greenwich Village, New York City",
+      "is_correct": true,
+      "attempts": 2,
+      "token_count": 2798,
+      "latency_ms": 5,
+      "failure_mode": "none",
+      "reflections": [
+        {
+          "attempt_id": 1,
+          "failure_reason": "The predicted answer does not complete the required evidence chain.",
+          "lesson": "An intermediate entity is not necessarily the requested final answer.",
+          "next_strategy": "Trace the relation from the first supporting entity to the second, then verify the final answer against the question wording.",
+          "evidence_to_check": [
+            "Just Another Romantic Wrestling Comedy",
+            "Kingston Morning"
+          ]
+        }
+      ],
+      "traces": [
+        {
+          "attempt_id": 1,
+          "answer": "Just Another Romantic Wrestling Comedy",
+          "score": 0,
+          "reason": "The predicted answer does not complete the required evidence chain.",
+          "failure_mode": "wrong_final_answer",
+          "reflection": {
+            "attempt_id": 1,
+            "failure_reason": "The predicted answer does not complete the required evidence chain.",
+            "lesson": "An intermediate entity is not necessarily the requested final answer.",
+            "next_strategy": "Trace the relation from the first supporting entity to the second, then verify the final answer against the question wording.",
+            "evidence_to_check": [
+              "Just Another Romantic Wrestling Comedy",
+              "Kingston Morning"
+            ],
+            "token_count": 24,
+            "latency_ms": 1
+          },
+          "token_estimate": 1414,
+          "latency_ms": 3
+        },
+        {
+          "attempt_id": 2,
+          "answer": "Greenwich Village, New York City",
+          "score": 1,
+          "reason": "Answer matches the gold answer after normalization.",
+          "failure_mode": "none",
+          "token_estimate": 1384,
+          "latency_ms": 2
+        }
+      ]
+    },
+    {
+      "qid": "5abd94525542992ac4f382d2",
+      "agent_type": "reflexion",
+      "question": "2014 S/S is the debut album of a South Korean boy group that was formed by who?",
+      "gold_answer": "YG Entertainment",
+      "predicted_answer": "YG Entertainment",
+      "is_correct": true,
+      "attempts": 1,
+      "token_count": 1223,
+      "latency_ms": 2,
+      "failure_mode": "none",
+      "reflections": [],
+      "traces": [
+        {
+          "attempt_id": 1,
+          "answer": "YG Entertainment",
+          "score": 1,
+          "reason": "Answer matches the gold answer after normalization.",
+          "failure_mode": "none",
+          "token_estimate": 1223,
+          "latency_ms": 2
+        }
+      ]
+    },
+    {
+      "qid": "5a85b2d95542997b5ce40028",
+      "agent_type": "reflexion",
+      "question": "Who was known by his stage name Aladin and helped organizations improve their performance as a consultant?",
+      "gold_answer": "Eenasul Fateh",
+      "predicted_answer": "Eenasul Fateh",
+      "is_correct": true,
+      "attempts": 2,
+      "token_count": 3918,
+      "latency_ms": 5,
+      "failure_mode": "none",
+      "reflections": [
+        {
+          "attempt_id": 1,
+          "failure_reason": "The predicted answer does not complete the required evidence chain.",
+          "lesson": "An intermediate entity is not necessarily the requested final answer.",
+          "next_strategy": "Trace the relation from the first supporting entity to the second, then verify the final answer against the question wording.",
+          "evidence_to_check": [
+            "James P. Comer",
+            "Method Man"
+          ]
+        }
+      ],
+      "traces": [
+        {
+          "attempt_id": 1,
+          "answer": "James P. Comer",
+          "score": 0,
+          "reason": "The predicted answer does not complete the required evidence chain.",
+          "failure_mode": "incomplete_multi_hop",
+          "reflection": {
+            "attempt_id": 1,
+            "failure_reason": "The predicted answer does not complete the required evidence chain.",
+            "lesson": "An intermediate entity is not necessarily the requested final answer.",
+            "next_strategy": "Trace the relation from the first supporting entity to the second, then verify the final answer against the question wording.",
+            "evidence_to_check": [
+              "James P. Comer",
+              "Method Man"
+            ],
+            "token_count": 24,
+            "latency_ms": 1
+          },
+          "token_estimate": 1974,
+          "latency_ms": 3
+        },
+        {
+          "attempt_id": 2,
+          "answer": "Eenasul Fateh",
+          "score": 1,
+          "reason": "Answer matches the gold answer after normalization.",
+          "failure_mode": "none",
+          "token_estimate": 1944,
+          "latency_ms": 2
+        }
+      ]
+    },
+    {
+      "qid": "5a87ab905542996e4f3088c1",
+      "agent_type": "reflexion",
+      "question": "The arena where the Lewiston Maineiacs played their home games can seat how many people?",
+      "gold_answer": "3,677 seated",
+      "predicted_answer": "3,677 seated",
+      "is_correct": true,
+      "attempts": 1,
+      "token_count": 3477,
+      "latency_ms": 2,
+      "failure_mode": "none",
+      "reflections": [],
+      "traces": [
+        {
+          "attempt_id": 1,
+          "answer": "3,677 seated",
+          "score": 1,
+          "reason": "Answer matches the gold answer after normalization.",
+          "failure_mode": "none",
+          "token_estimate": 3477,
+          "latency_ms": 2
+        }
+      ]
+    },
+    {
+      "qid": "5a7bbb64554299042af8f7cc",
+      "agent_type": "reflexion",
+      "question": "Who is older, Annie Morton or Terry Richardson?",
+      "gold_answer": "Terry Richardson",
+      "predicted_answer": "Terry Richardson",
+      "is_correct": true,
+      "attempts": 1,
+      "token_count": 1383,
+      "latency_ms": 2,
+      "failure_mode": "none",
+      "reflections": [],
+      "traces": [
+        {
+          "attempt_id": 1,
+          "answer": "Terry Richardson",
+          "score": 1,
+          "reason": "Answer matches the gold answer after normalization.",
+          "failure_mode": "none",
+          "token_estimate": 1383,
+          "latency_ms": 2
+        }
+      ]
+    },
+    {
+      "qid": "5a8db19d5542994ba4e3dd00",
+      "agent_type": "reflexion",
+      "question": "Are Local H and For Against both from the United States?",
+      "gold_answer": "yes",
+      "predicted_answer": "yes",
+      "is_correct": true,
+      "attempts": 1,
+      "token_count": 1443,
+      "latency_ms": 2,
+      "failure_mode": "none",
+      "reflections": [],
+      "traces": [
+        {
+          "attempt_id": 1,
+          "answer": "yes",
+          "score": 1,
+          "reason": "Answer matches the gold answer after normalization.",
+          "failure_mode": "none",
+          "token_estimate": 1443,
+          "latency_ms": 2
+        }
+      ]
+    },
+    {
+      "qid": "5a7166395542994082a3e814",
+      "agent_type": "reflexion",
+      "question": "What is the name of the fight song of the university whose main campus is in Lawrence, Kansas and whose branch campuses are in the Kansas City metropolitan area?",
+      "gold_answer": "Kansas Song",
+      "predicted_answer": "Kansas Song",
+      "is_correct": true,
+      "attempts": 2,
+      "token_count": 3924,
+      "latency_ms": 5,
+      "failure_mode": "none",
+      "reflections": [
+        {
+          "attempt_id": 1,
+          "failure_reason": "The predicted answer does not complete the required evidence chain.",
+          "lesson": "An intermediate entity is not necessarily the requested final answer.",
+          "next_strategy": "Trace the relation from the first supporting entity to the second, then verify the final answer against the question wording.",
+          "evidence_to_check": [
+            "North Kansas City, Missouri",
+            "University of Missouri–Kansas City"
+          ]
+        }
+      ],
+      "traces": [
+        {
+          "attempt_id": 1,
+          "answer": "North Kansas City, Missouri",
+          "score": 0,
+          "reason": "The predicted answer does not complete the required evidence chain.",
+          "failure_mode": "entity_drift",
+          "reflection": {
+            "attempt_id": 1,
+            "failure_reason": "The predicted answer does not complete the required evidence chain.",
+            "lesson": "An intermediate entity is not necessarily the requested final answer.",
+            "next_strategy": "Trace the relation from the first supporting entity to the second, then verify the final answer against the question wording.",
+            "evidence_to_check": [
+              "North Kansas City, Missouri",
+              "University of Missouri–Kansas City"
+            ],
+            "token_count": 24,
+            "latency_ms": 1
+          },
+          "token_estimate": 1977,
+          "latency_ms": 3
+        },
+        {
+          "attempt_id": 2,
+          "answer": "Kansas Song",
+          "score": 1,
+          "reason": "Answer matches the gold answer after normalization.",
+          "failure_mode": "none",
+          "token_estimate": 1947,
+          "latency_ms": 2
+        }
+      ]
+    },
+    {
+      "qid": "5a877e5d5542993e715abf7d",
+      "agent_type": "reflexion",
+      "question": "What screenwriter with credits for \"Evolution\" co-wrote a film starring Nicolas Cage and Téa Leoni?",
+      "gold_answer": "David Weissman",
+      "predicted_answer": "David Weissman",
+      "is_correct": true,
+      "attempts": 1,
+      "token_count": 1190,
+      "latency_ms": 2,
+      "failure_mode": "none",
+      "reflections": [],
+      "traces": [
+        {
+          "attempt_id": 1,
+          "answer": "David Weissman",
+          "score": 1,
+          "reason": "Answer matches the gold answer after normalization.",
+          "failure_mode": "none",
+          "token_estimate": 1190,
+          "latency_ms": 2
+        }
+      ]
+    },
+    {
+      "qid": "5ab3b0bf5542992ade7c6e39",
+      "agent_type": "reflexion",
+      "question": "What year did Guns N Roses perform a promo for a movie starring Arnold Schwarzenegger as a former New York Police detective?",
+      "gold_answer": "1999",
+      "predicted_answer": "1999",
+      "is_correct": true,
+      "attempts": 1,
+      "token_count": 1507,
+      "latency_ms": 2,
+      "failure_mode": "none",
+      "reflections": [],
+      "traces": [
+        {
+          "attempt_id": 1,
+          "answer": "1999",
+          "score": 1,
+          "reason": "Answer matches the gold answer after normalization.",
+          "failure_mode": "none",
+          "token_estimate": 1507,
+          "latency_ms": 2
+        }
+      ]
+    },
+    {
+      "qid": "5ab56e32554299637185c594",
+      "agent_type": "reflexion",
+      "question": "Are Random House Tower and 888 7th Avenue both used for real estate?",
+      "gold_answer": "no",
+      "predicted_answer": "no",
+      "is_correct": true,
+      "attempts": 1,
+      "token_count": 3345,
+      "latency_ms": 2,
+      "failure_mode": "none",
+      "reflections": [],
+      "traces": [
+        {
+          "attempt_id": 1,
+          "answer": "no",
+          "score": 1,
+          "reason": "Answer matches the gold answer after normalization.",
+          "failure_mode": "none",
+          "token_estimate": 3345,
+          "latency_ms": 2
+        }
+      ]
+    },
+    {
+      "qid": "5ab6d09255429954757d337d",
+      "agent_type": "reflexion",
+      "question": "The football manager who recruited David Beckham managed Manchester United during what timeframe?",
+      "gold_answer": "from 1986 to 2013",
+      "predicted_answer": "from 1986 to 2013",
+      "is_correct": true,
+      "attempts": 2,
+      "token_count": 2020,
+      "latency_ms": 5,
+      "failure_mode": "none",
+      "reflections": [
+        {
+          "attempt_id": 1,
+          "failure_reason": "The predicted answer does not complete the required evidence chain.",
+          "lesson": "An intermediate entity is not necessarily the requested final answer.",
+          "next_strategy": "Trace the relation from the first supporting entity to the second, then verify the final answer against the question wording.",
+          "evidence_to_check": [
+            "Joshua Parlby",
+            "1996 FA Charity Shield"
+          ]
+        }
+      ],
+      "traces": [
+        {
+          "attempt_id": 1,
+          "answer": "Joshua Parlby",
+          "score": 0,
+          "reason": "The predicted answer does not complete the required evidence chain.",
+          "failure_mode": "incomplete_multi_hop",
+          "reflection": {
+            "attempt_id": 1,
+            "failure_reason": "The predicted answer does not complete the required evidence chain.",
+            "lesson": "An intermediate entity is not necessarily the requested final answer.",
+            "next_strategy": "Trace the relation from the first supporting entity to the second, then verify the final answer against the question wording.",
+            "evidence_to_check": [
+              "Joshua Parlby",
+              "1996 FA Charity Shield"
+            ],
+            "token_count": 24,
+            "latency_ms": 1
+          },
+          "token_estimate": 1025,
+          "latency_ms": 3
+        },
+        {
+          "attempt_id": 2,
+          "answer": "from 1986 to 2013",
+          "score": 1,
+          "reason": "Answer matches the gold answer after normalization.",
+          "failure_mode": "none",
+          "token_estimate": 995,
+          "latency_ms": 2
+        }
+      ]
+    },
+    {
+      "qid": "5a75e05c55429976ec32bc5f",
+      "agent_type": "reflexion",
+      "question": "Brown State Fishing Lake is in a country that has a population of how many inhabitants ?",
+      "gold_answer": "9,984",
+      "predicted_answer": "9,984",
+      "is_correct": true,
+      "attempts": 1,
+      "token_count": 1579,
+      "latency_ms": 2,
+      "failure_mode": "none",
+      "reflections": [],
+      "traces": [
+        {
+          "attempt_id": 1,
+          "answer": "9,984",
+          "score": 1,
+          "reason": "Answer matches the gold answer after normalization.",
+          "failure_mode": "none",
+          "token_estimate": 1579,
+          "latency_ms": 2
+        }
+      ]
+    },
+    {
+      "qid": "5ab3e45655429976abd1bcd4",
+      "agent_type": "reflexion",
+      "question": "The Vermont Catamounts men's soccer team currently competes in a conference that was formerly known as what from 1988 to 1996?",
+      "gold_answer": "the North Atlantic Conference",
+      "predicted_answer": "the North Atlantic Conference",
+      "is_correct": true,
+      "attempts": 2,
+      "token_count": 2720,
+      "latency_ms": 5,
+      "failure_mode": "none",
+      "reflections": [
+        {
+          "attempt_id": 1,
+          "failure_reason": "The predicted answer does not complete the required evidence chain.",
+          "lesson": "An intermediate entity is not necessarily the requested final answer.",
+          "next_strategy": "Trace the relation from the first supporting entity to the second, then verify the final answer against the question wording.",
+          "evidence_to_check": [
+            "2010–11 Vermont Catamounts men's basketball team",
+            "2012–13 Vermont Catamounts men's basketball team"
+          ]
+        }
+      ],
+      "traces": [
+        {
+          "attempt_id": 1,
+          "answer": "2010–11 Vermont Catamounts men's basketball team",
+          "score": 0,
+          "reason": "The predicted answer does not complete the required evidence chain.",
+          "failure_mode": "entity_drift",
+          "reflection": {
+            "attempt_id": 1,
+            "failure_reason": "The predicted answer does not complete the required evidence chain.",
+            "lesson": "An intermediate entity is not necessarily the requested final answer.",
+            "next_strategy": "Trace the relation from the first supporting entity to the second, then verify the final answer against the question wording.",
+            "evidence_to_check": [
+              "2010–11 Vermont Catamounts men's basketball team",
+              "2012–13 Vermont Catamounts men's basketball team"
+            ],
+            "token_count": 24,
+            "latency_ms": 1
+          },
+          "token_estimate": 1375,
+          "latency_ms": 3
+        },
+        {
+          "attempt_id": 2,
+          "answer": "the North Atlantic Conference",
+          "score": 1,
+          "reason": "Answer matches the gold answer after normalization.",
+          "failure_mode": "none",
+          "token_estimate": 1345,
+          "latency_ms": 2
+        }
+      ]
+    },
+    {
+      "qid": "5ab29c24554299449642c932",
+      "agent_type": "reflexion",
+      "question": "Are Giuseppe Verdi and Ambroise Thomas both Opera composers ?",
+      "gold_answer": "yes",
+      "predicted_answer": "yes",
+      "is_correct": true,
+      "attempts": 1,
+      "token_count": 1247,
+      "latency_ms": 2,
+      "failure_mode": "none",
+      "reflections": [],
+      "traces": [
+        {
+          "attempt_id": 1,
+          "answer": "yes",
+          "score": 1,
+          "reason": "Answer matches the gold answer after normalization.",
+          "failure_mode": "none",
+          "token_estimate": 1247,
+          "latency_ms": 2
+        }
+      ]
+    },
+    {
+      "qid": "5ae0d4c9554299603e418468",
+      "agent_type": "reflexion",
+      "question": "Roger O. Egeberg was Assistant Secretary for Health and Scientific Affairs during the administration of a president that served during what years?",
+      "gold_answer": "1969 until 1974",
+      "predicted_answer": "1969 until 1974",
+      "is_correct": true,
+      "attempts": 1,
+      "token_count": 1888,
+      "latency_ms": 2,
+      "failure_mode": "none",
+      "reflections": [],
+      "traces": [
+        {
+          "attempt_id": 1,
+          "answer": "1969 until 1974",
+          "score": 1,
+          "reason": "Answer matches the gold answer after normalization.",
+          "failure_mode": "none",
+          "token_estimate": 1888,
+          "latency_ms": 2
+        }
+      ]
+    },
+    {
+      "qid": "5a8133725542995ce29dcbdb",
+      "agent_type": "reflexion",
+      "question": "Which writer was from England, Henry Roth or Robert Erskine Childers?",
+      "gold_answer": "Robert Erskine Childers DSC",
+      "predicted_answer": "Robert Erskine Childers DSC",
+      "is_correct": true,
+      "attempts": 1,
+      "token_count": 957,
+      "latency_ms": 2,
+      "failure_mode": "none",
+      "reflections": [],
+      "traces": [
+        {
+          "attempt_id": 1,
+          "answer": "Robert Erskine Childers DSC",
+          "score": 1,
+          "reason": "Answer matches the gold answer after normalization.",
+          "failure_mode": "none",
+          "token_estimate": 957,
+          "latency_ms": 2
+        }
+      ]
+    }
+  ],
+  "extensions": [
+    "structured_evaluator",
+    "reflection_memory",
+    "adaptive_max_attempts",
+    "memory_compression",
+    "benchmark_report_json",
+    "mock_mode_for_autograding"
+  ],
+  "discussion": "The benchmark compares ReAct and Reflexion on the same multi-hop QA examples. ReAct has the lower cost because it always stops after one Actor-Evaluator pass. Reflexion spends additional tokens and latency only after a failed judgment, then carries a structured lesson and next-step strategy into the retry. This is useful for incomplete hops and entity drift, but it cannot repair a weak evaluator or missing context. Adaptive attempt budgets limit unnecessary retries, while compressed reflection memory prevents old lessons from growing without bound. Token totals come from OpenAI response usage in live mode and latency is measured wall-clock per API call. The system also retains a deterministic mock mode so graders can verify control flow without API access. Reflection therefore improves recoverability, not correctness for free: every gain must be read together with attempts, tokens, and latency."
+}
